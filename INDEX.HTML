@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Car Rental Booking</title>
+    <style>
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #0f3460;
+            --highlight-color: #e94560;
+            --text-color: #ffffff;
+            --light-bg: #f8f9fa;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero {
+            background: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1200') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            background: var(--highlight-color);
+            color: var(--text-color);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: #d6336c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.3);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--text-color);
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .car-card {
+            background: var(--light-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .car-card.selected {
+            border: 3px solid var(--highlight-color);
+        }
+
+        .car-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .car-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .car-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .car-info p {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .select-btn {
+            background: var(--accent-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .select-btn:hover {
+            background: var(--highlight-color);
+        }
+
+        .booking-form {
+            background: var(--light-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--highlight-color);
+            box-shadow: 0 0 5px rgba(233, 69, 96, 0.3);
+        }
+
+        #total-cost {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--highlight-color);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+            .car-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>XYZ Car Rentals</h1>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Drive in Style</h2>
+            <p>Choose from our premium fleet and book your dream car today.</p>
+            <a href="#cars" class="btn-primary">Explore Cars</a>
+        </div>
+    </section>
+
+    <main>
+        <section id="cars">
+            <h2 class="section-title">Select Your Car</h2>
+            <div class="car-grid">
+                <div class="car-card" data-price="5000">
+                    <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?w=400" alt="Luxury Sedan" class="car-image">
+                    <div class="car-info">
+                        <h3>Luxury Sedan</h3>
+                        <p>$5000/day</p>
+                        <button class="select-btn">Select</button>
+                    </div>
+                </div>
+                <div class="car-card" data-price="8000">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400" alt="Premium SUV" class="car-image">
+                    <div class="car-info">
+                        <h3>Premium SUV</h3>
+                        <p>$8000/day</p>
+                        <button class="select-btn">Select</button>
+                    </div>
+                </div>
+                <div class="car-card" data-price="22000">
+                    <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400" alt="Sports Car" class="car-image">
+                    <div class="car-info">
+                        <h3>Sports Car</h3>
+                        <p>$22000/day</p>
+                        <button class="select-btn">Select</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="booking">
+            <h2 class="section-title">Book Your Rental</h2>
+            <form class="booking-form" id="rental-form">
+                <div class="form-group">
+                    <label for="pickup-date">Pick-up Date</label>
+                    <input type="date" id="pickup-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="return-date">Return Date</label>
+                    <input type="date" id="return-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div id="total-cost">Total Cost: $0</div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Confirm Booking</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Elite Car Rentals. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectButtons = document.querySelectorAll('.select-btn');
+            const totalCostDiv = document.getElementById('total-cost');
+            const form = document.getElementById('rental-form');
+            let selectedCarPrice = 0;
+
+            // Handle car selection
+            selectButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove selection from others
+                    document.querySelectorAll('.car-card').forEach(card => card.classList.remove('selected'));
+                    // Add selection to this one
+                    this.closest('.car-card').classList.add('selected');
+                    selectedCarPrice = parseInt(this.closest('.car-card').dataset.price);
+                    updateTotal();
+                });
+            });
+
+            // Update total cost when dates change
+            document.getElementById('pickup-date').addEventListener('change', updateTotal);
+            document.getElementById('return-date').addEventListener('change', updateTotal);
+
+            function updateTotal() {
+                const pickup = new Date(document.getElementById('pickup-date').value);
+                const returnDate = new Date(document.getElementById('return-date').value);
+                if (pickup && returnDate && returnDate > pickup) {
+                    const days = Math.ceil((returnDate - pickup) / (1000 * 60 * 60 * 24));
+                    const total = days * selectedCarPrice;
+                    totalCostDiv.textContent = `Total Cost: $${total}`;
+                } else {
+                    totalCostDiv.textContent = 'Total Cost: $0';
+                }
+            }
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (selectedCarPrice === 0) {
+                    alert('Please select a car first.');
+                    return;
+                }
+                alert('Booking confirmed! Thank you for choosing Elite Car Rentals. (In a real app, this would process the booking.)');
+                // Reset form
+                form.reset();
+                document.querySelectorAll('.car-card').forEach(card => card.classList.remove('selected'));
+                selectedCarPrice = 0;
+                totalCostDiv.textContent = 'Total Cost: $0';
+            });
+        });
+    </script>
+</body>
+</html>
